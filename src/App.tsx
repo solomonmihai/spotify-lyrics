@@ -1,25 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
+
+import LandingPage from "./Pages/LandingPage";
+import RedirectPage from "./Pages/RedirectPage";
+import DashboardPage from "./Pages/DashboardPage";
+import Header from "./Components/Header";
+import AuthStore from "./Stores/AuthStore";
+
+const theme = extendTheme({
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: false,
+  },
+});
 
 function App() {
+  const authData = localStorage.getItem("auth");
+
+  if (authData) {
+    const { token, expires } = JSON.parse(authData);
+    const tokenExpired = Date.parse(expires) < Date.parse(new Date().toString());
+
+    if (!tokenExpired) {
+      AuthStore.update((state) => {
+        state.token = token;
+      });
+    } else {
+      localStorage.removeItem("auth");
+      console.log('token expired')
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider theme={theme}>
+      <Box className="App">
+        <Header />
+        <Router>
+          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/redirect" component={RedirectPage} />
+          <Route exact path="/dashboard" component={DashboardPage} />
+        </Router>
+      </Box>
+    </ChakraProvider>
   );
 }
 
