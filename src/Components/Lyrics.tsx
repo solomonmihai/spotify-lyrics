@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Text } from "@chakra-ui/react";
+import { Container, Spinner, Text, Box } from "@chakra-ui/react";
 import axios from "axios";
 import SongStore from "../Stores/SongStore";
 import LyricsText from "./LyricsText";
@@ -17,6 +17,8 @@ export default function Lyrics() {
   const [lyrics, setLyrics] = useState<any>();
   const [progress, setProgress] = useState<number | null>();
   const [lyricsSrc, setLyricsSrc] = useState<LyricsSrc | null>();
+  const [loaded, setLoaded] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   SongStore.subscribe(
     (state) => state.songData,
@@ -29,8 +31,13 @@ export default function Lyrics() {
     const url = `https://api.lyrics.ovh/v1/${artist}/${song}`;
 
     axios
-      .get(url)
+      .get(url, {
+        timeout: 3000,
+      })
       .then((res) => {
+        if (!res) {
+          console.log("jj");
+        }
         const lyricsArr: [] = res.data.lyrics.split(/\r\n|\r|\n/);
         for (let i = 0; i < lyricsArr.length; i++) {
           if (lyricsArr[i] == "") {
@@ -39,8 +46,12 @@ export default function Lyrics() {
         }
         setLyrics(lyricsArr);
         setLyricsSrc(LyricsSrc.ovh);
+        setLoaded(true);
       })
-      .catch((err) => console.log("Ovh lyrics err: ", err));
+      .catch((err) => {
+        console.log("Ovh lyrics err: ", err);
+        setNotFound(true);
+      });
   }
 
   function getLyricsTextyl(artist: string, song: string) {
@@ -56,6 +67,7 @@ export default function Lyrics() {
         } else {
           setLyrics(JSON.parse(data));
           setLyricsSrc(LyricsSrc.textyl);
+          setLoaded(true);
         }
       })
       .catch((err) => {
@@ -87,6 +99,27 @@ export default function Lyrics() {
       };
     }
   }, [progress]);
+
+  if (notFound) {
+    return (
+      <Box textAlign="center" fontWeight="bold" fontSize="1.2em">
+        <Box transform="translate(0, -0%)" marginTop="25%">
+          <Text>Sorry man, couldn't find any lyrics for this</Text>
+        </Box>
+      </Box>
+    );
+  }
+
+  if (!loaded) {
+    return (
+      <Box textAlign="center" fontWeight="bold" fontSize="1.2em">
+        <Box transform="translate(0, -0%)" marginTop="25%">
+          <Text>Loadin' bro</Text>
+          <Spinner size="lg" />
+        </Box>
+      </Box>
+    );
+  }
 
   if (!lyrics) {
     return null;
