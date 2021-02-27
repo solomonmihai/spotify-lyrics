@@ -15,13 +15,18 @@ const spotifyAuthScopes = [
 ];
 
 function getRedirectUri(): string {
-  const spotifyRedirectUriLocalhost = "http://localhost:3000/redirect";
-  const spotifyRedirectUriLocalhostIp = "http://127.0.0.1:3000/redirect";
+  const localhostUri = "http://localhost:3000/redirect";
+  const ipUri = "http://127.0.0.1:3000/redirect";
+  const netlifyUri = "https://spotifylyrics.netlify.app/redirect";
 
-  if (window.location.href.includes("localhost")) {
-    return spotifyRedirectUriLocalhost;
+  const url = window.location.href;
+
+  if (url.includes("netlify")) {
+    return netlifyUri;
+  } else if (url.includes("localhost")) {
+    return localhostUri;
   } else {
-    return spotifyRedirectUriLocalhostIp;
+    return ipUri;
   }
 }
 
