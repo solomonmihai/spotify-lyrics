@@ -28,7 +28,7 @@ function App() {
       });
     } else {
       localStorage.removeItem("auth");
-      console.log('token expired')
+      console.log("token expired");
     }
   }
 

@@ -6,7 +6,6 @@ import { Redirect } from "react-router-dom";
 
 const spotifyAuthUrl = "https://accounts.spotify.com/authorize";
 const spotifyClientID = "9895e0ba277e4d509bad2a2efa893e69";
-const spotifyRedirectUrl = "http://localhost:3000/redirect";
 const spotifyAuthScopes = [
   "user-read-currently-playing",
   "user-top-read",
@@ -14,6 +13,17 @@ const spotifyAuthScopes = [
   "user-modify-playback-state",
   "user-read-playback-state",
 ];
+
+function getRedirectUri(): string {
+  const spotifyRedirectUriLocalhost = "http://localhost:3000/redirect";
+  const spotifyRedirectUriLocalhostIp = "http://127.0.0.1:3000/redirect";
+
+  if (window.location.href.includes("localhost")) {
+    return spotifyRedirectUriLocalhost;
+  } else {
+    return spotifyRedirectUriLocalhostIp;
+  }
+}
 
 export default function LandingPage() {
   const token = AuthStore.useState((state) => state.token);
@@ -28,7 +38,9 @@ export default function LandingPage() {
     );
   }
 
-  const url = `${spotifyAuthUrl}?client_id=${spotifyClientID}&redirect_uri=${spotifyRedirectUrl}&response_type=token&show_dialog=false&scope=${spotifyAuthScopes
+  const redirectUri = getRedirectUri();
+
+  const url = `${spotifyAuthUrl}?client_id=${spotifyClientID}&redirect_uri=${redirectUri}&response_type=token&show_dialog=true&scope=${spotifyAuthScopes
     .map((scope) => scope + " ")
     .join("")
     .trim()}`;

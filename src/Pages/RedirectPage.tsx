@@ -24,13 +24,12 @@ export default function RedirectPage() {
     state.token = accessToken;
   });
 
-  localStorage.setItem(
-    "auth",
-    JSON.stringify({
-      token: accessToken,
-      expires: expiryDate,
-    })
-  );
+  const authData = {
+    token: accessToken,
+    expires: expiryDate,
+  };
+
+  localStorage.setItem("auth", JSON.stringify(authData));
 
   return (
     <Redirect
