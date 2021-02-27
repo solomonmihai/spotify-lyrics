@@ -38,6 +38,7 @@ export default function Lyrics() {
           }
         }
         setLyrics(lyricsArr);
+        setLyricsSrc(LyricsSrc.ovh);
       })
       .catch((err) => console.log("Ovh lyrics err: ", err));
   }
@@ -49,11 +50,11 @@ export default function Lyrics() {
       .get(url)
       .then((res) => {
         const data = res.data.contents;
-        if (data == "No lyrics available") {
+        if (!data || data == "No lyrics available") {
           getLyricsOvh(artist, song);
           setLyricsSrc(LyricsSrc.ovh);
         } else {
-          setLyrics(JSON.parse(res.data.contents));
+          setLyrics(JSON.parse(data));
           setLyricsSrc(LyricsSrc.textyl);
         }
       })
@@ -66,6 +67,7 @@ export default function Lyrics() {
     if (songData) {
       const encSong = encodeURIComponent(songData.item.name);
       const encArtist = encodeURIComponent(songData.item.artists[0].name);
+      // not working atm
       getLyricsTextyl(encArtist, encSong);
 
       // add one more second to fix the delay
@@ -91,7 +93,6 @@ export default function Lyrics() {
 
   return (
     <Container textAlign="center">
-      <Text>{progress}</Text>
       <LyricsText lyrics={lyrics} progress={progress!} lyricsSrc={lyricsSrc!} />
     </Container>
   );
