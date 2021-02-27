@@ -69,7 +69,7 @@ export default function Lyrics() {
       const encArtist = encodeURIComponent(songData.item.artists[0].name);
       // not working atm
       // getLyricsTextyl(encArtist, encSong);
-      getLyricsOvh(artist, song);
+      getLyricsOvh(encArtist, encSong);
 
       // add one more second to fix the delay
       setProgress(songData.progress_ms / 1000 + 1);
