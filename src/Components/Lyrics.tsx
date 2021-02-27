@@ -32,7 +32,7 @@ export default function Lyrics() {
 
     axios
       .get(url, {
-        timeout: 3000,
+        timeout: 10000
       })
       .then((res) => {
         if (!res) {
@@ -104,7 +104,8 @@ export default function Lyrics() {
     return (
       <Box textAlign="center" fontWeight="bold" fontSize="1.2em">
         <Box transform="translate(0, -0%)" marginTop="25%">
-          <Text>Sorry man, couldn't find any lyrics for this</Text>
+          <Text>Sorry man, couldn't find any lyrics for this.</Text>
+          <Text>Refreshing may help</Text>
         </Box>
       </Box>
     );
