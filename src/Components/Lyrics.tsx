@@ -5,7 +5,7 @@ import SongStore from "../Stores/SongStore";
 import LyricsText from "./LyricsText";
 
 // maybe host my own cors anywhere server
-const corsurl = "https://api.allorigins.win/get?url=";
+const corsurl = "https://cors-anywhere-mihai.herokuapp.com/";
 
 export enum LyricsSrc {
   ovh,
@@ -79,9 +79,8 @@ export default function Lyrics() {
     if (songData) {
       const encSong = encodeURIComponent(songData.item.name);
       const encArtist = encodeURIComponent(songData.item.artists[0].name);
-      // not working atm
-      // getLyricsTextyl(encArtist, encSong);
-      getLyricsOvh(encArtist, encSong);
+      getLyricsTextyl(encArtist, encSong);
+      // getLyricsOvh(encArtist, encSong);
 
       // add one more second to fix the delay
       setProgress(songData.progress_ms / 1000 + 1);
