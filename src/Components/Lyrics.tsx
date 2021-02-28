@@ -32,7 +32,7 @@ export default function Lyrics() {
 
     axios
       .get(url, {
-        timeout: 10000
+        timeout: 10000,
       })
       .then((res) => {
         if (!res) {
@@ -60,18 +60,13 @@ export default function Lyrics() {
     axios
       .get(url)
       .then((res) => {
-        const data = res.data.contents;
-        if (!data || data == "No lyrics available") {
-          getLyricsOvh(artist, song);
-          setLyricsSrc(LyricsSrc.ovh);
-        } else {
-          setLyrics(JSON.parse(data));
-          setLyricsSrc(LyricsSrc.textyl);
-          setLoaded(true);
-        }
+        setLyrics(res.data);
+        setLyricsSrc(LyricsSrc.textyl);
+        setLoaded(true);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Textyl err: ", err);
+        getLyricsOvh(artist, song);
       });
   }
 
