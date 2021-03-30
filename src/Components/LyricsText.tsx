@@ -36,7 +36,7 @@ export default function LyricsText({ lyrics, progress, lyricsSrc }: Props) {
             // color={isCurrent ? undefined : "#aaa"}
             color="#ccc"
           >
-            {lyricsSrc == LyricsSrc.ovh ? verse : verse.lyrics}
+            {lyricsSrc == LyricsSrc.ovh ? verse : verse.lyric}
           </Text>
         );
       })}

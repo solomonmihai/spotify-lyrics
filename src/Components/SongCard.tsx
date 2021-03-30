@@ -8,6 +8,8 @@ export default function SongCard() {
     return null;
   }
 
+  const albumCover = songData.item.album.images[0].url;
+
   return (
     <VStack
       maxW="300px"
@@ -19,7 +21,7 @@ export default function SongCard() {
       transform="translate(0, -50%)"
       p="2"
     >
-      <Image src={songData.item.album.images[0].url} borderRadius="lg" />
+      <Image src={albumCover} borderRadius="lg" />
       <Text fontWeight="bold" textAlign="center">
         {songData.item.name}
       </Text>

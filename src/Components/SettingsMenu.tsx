@@ -15,7 +15,6 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 import { FaCog } from "react-icons/fa";
-
 import SettingsStore from "../Stores/SettingsStore";
 
 const DisabledTooltip = ({ condition, text }: { condition: boolean; text: string }) => (

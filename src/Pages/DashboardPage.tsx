@@ -1,5 +1,5 @@
 import { Box, useColorMode } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 
 import Lyrics from "../Components/Lyrics";
@@ -17,6 +17,8 @@ export function getAxiosConfig(token: string) {
     },
   };
 }
+
+// TODO: check for song change
 
 export default function DashboardPage({ history }: any) {
   const songData: any = SongStore.useState((state) => state.songData);

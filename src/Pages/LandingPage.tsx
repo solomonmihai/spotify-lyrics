@@ -45,7 +45,7 @@ export default function LandingPage() {
 
   const redirectUri = getRedirectUri();
 
-  const url = `${spotifyAuthUrl}?client_id=${spotifyClientID}&redirect_uri=${redirectUri}&response_type=token&show_dialog=true&scope=${spotifyAuthScopes
+  const url = `${spotifyAuthUrl}?client_id=${spotifyClientID}&redirect_uri=${redirectUri}&response_type=token&show_dialog=false&scope=${spotifyAuthScopes
     .map((scope) => scope + " ")
     .join("")
     .trim()}`;
