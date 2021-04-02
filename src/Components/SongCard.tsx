@@ -1,6 +1,8 @@
 import { Box, Tag, Text, VStack, Image } from "@chakra-ui/react";
 import SongStore from "../Stores/SongStore";
 
+// TODO: make this responsive
+
 export default function SongCard() {
   const songData: any = SongStore.useState((state) => state.songData);
 

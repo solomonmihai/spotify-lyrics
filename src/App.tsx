@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { Box, ChakraProvider, extendTheme, useColorModeValue } from "@chakra-ui/react";
 
 import LandingPage from "./Pages/LandingPage";
 import RedirectPage from "./Pages/RedirectPage";

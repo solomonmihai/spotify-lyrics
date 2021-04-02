@@ -17,6 +17,8 @@ import {
 import { FaCog } from "react-icons/fa";
 import SettingsStore from "../Stores/SettingsStore";
 
+// TODO: maybe close the menu on ESC key press or when pressing outside that area
+
 const DisabledTooltip = ({ condition, text }: { condition: boolean; text: string }) => (
   <Tooltip
     isDisabled={condition}

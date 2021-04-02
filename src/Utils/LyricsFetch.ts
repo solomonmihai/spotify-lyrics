@@ -33,22 +33,15 @@ function parseLrc(lrc: string) {
       const timeString = verse.match(/\[(.*?)\]/)![1];
       const lyric = verse.split("]")[1];
 
-      // TODO: remove lyrics that have chinese
-      if (lyric == "") {
-        continue;
-      } else {
-        lyrics.push({
-          time: parseTime(timeString),
-          lyric: lyric,
-        });
-      }
+      lyrics.push({
+        time: parseTime(timeString),
+        string: lyric,
+      });
     }
   }
   return lyrics;
 }
 
-// provide args as encoded uri components
-// TODO: also check if lyrics exist
 export default async function fetchLyrics(song: string, artist: string) {
   const songId = await getSongId(song, artist);
   const url = `${corsUrl}${lyricsUrl}${songId}`;
@@ -59,7 +52,13 @@ export default async function fetchLyrics(song: string, artist: string) {
   });
 }
 
-// function getLyricsOvh(artist: string, song: string) {
+// async function fetchLyricsTextyl(song: string, artist: string) {
+// const url = `${corsUrl}https://api.textyl.co/api/lyrics?q=${song} ${artist}`;
+
+// return axios.get(url).then((res) => res.data);
+// }
+
+// function fetchLyricsOvh(song: string, artist: string) {
 // const url = `https://api.lyrics.ovh/v1/${artist}/${song}`;
 
 // axios
@@ -67,34 +66,15 @@ export default async function fetchLyrics(song: string, artist: string) {
 // timeout: 10000,
 // })
 // .then((res) => {
-// const lyricsArr: [] = res.data.lyrics.split(/\r\n|\r|\n/);
-// for (let i = 0; i < lyricsArr.length; i++) {
-// if (lyricsArr[i] == "") {
-// lyricsArr.splice(i, 1);
-// }
-// }
-// setLyrics(lyricsArr);
-// setLyricsSrc(LyricsSrc.ovh);
-// setLoaded(true);
-// })
-// .catch((err) => {
-// console.log("Ovh lyrics err: ", err);
-// setNotFound(true);
+// const list = (res.data.lyrics as string)
+// .split(/\r\n|\r|\n/)
+// .filter((lyric) => lyric != "")
+// .map((s) => {
+// return {
+// string: s,
+// };
 // });
-// }
 
-// function getLyricsTextyl(artist: string, song: string) {
-// const url = `${corsurl}https://api.textyl.co/api/lyrics?q=${song} ${artist}`;
-
-// axios
-// .get(url)
-// .then((res) => {
-// setLyrics(res.data);
-// setLyricsSrc(LyricsSrc.textyl);
-// setLoaded(true);
-// })
-// .catch((err) => {
-// console.log("Textyl err: ", err);
-// getLyricsOvh(artist, song);
+// return list;
 // });
 // }
