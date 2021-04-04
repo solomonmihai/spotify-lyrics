@@ -1,5 +1,5 @@
-import { Box, useColorMode } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Box, useColorMode, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import Lyrics from "../Components/Lyrics";
@@ -27,13 +27,20 @@ export default function DashboardPage({ history }: any) {
 
   const axiosConfig = getAxiosConfig(token ?? "");
 
+  const [playing, setPlaying] = useState(false);
+
   function getSongData() {
     axios
       .get("https://api.spotify.com/v1/me/player/currently-playing", axiosConfig)
       .then((res) => {
-        SongStore.update((state) => {
-          state.songData = res.data;
-        });
+        if (res.data == "") {
+          setPlaying(false);
+        } else {
+          SongStore.update((state) => {
+            state.songData = res.data;
+            setPlaying(true);
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -68,8 +75,14 @@ export default function DashboardPage({ history }: any) {
           zIndex="-999"
         />
       )}
-      <SongCard />
-      <Lyrics />
+      {playing && <Lyrics />}
+      {!playing && (
+        <Box textAlign="center" fontWeight="bold" fontSize="1.4em">
+          <Box marginTop="25%">
+            <Text>Nothing playing on Spotify</Text>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 }
