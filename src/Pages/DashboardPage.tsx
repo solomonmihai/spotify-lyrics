@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import Lyrics from "../Components/Lyrics";
-import SongCard from "../Components/SongCard";
 import AuthStore from "../Stores/AuthStore";
 import SongStore from "../Stores/SongStore";
 import SettingsStore from "../Stores/SettingsStore";
@@ -57,6 +56,8 @@ export default function DashboardPage({ history }: any) {
   if (!token) {
     history.push("/");
   }
+
+  // TODO: make blurred background on body instead of a separate element
 
   return (
     <Box>

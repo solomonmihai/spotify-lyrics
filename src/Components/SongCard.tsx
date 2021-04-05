@@ -1,7 +1,5 @@
-import { Box, Tag, Text, HStack, Image, VStack } from "@chakra-ui/react";
+import { Box, Tag, Text, HStack, Image, VStack, useMediaQuery } from "@chakra-ui/react";
 import SongStore from "../Stores/SongStore";
-
-// TODO: make this responsive
 
 export default function SongCard() {
   const songData: any = SongStore.useState((state) => state.songData);
@@ -13,10 +11,10 @@ export default function SongCard() {
   const albumCover = songData.item.album.images[0].url;
 
   return (
-    <HStack borderWidth="1px" borderRadius="19px" p="10px" mb="20px">
+    <VStack p="10px" mb="20px">
       <Image maxW="200px" src={albumCover} borderRadius="15px" />
       <VStack width="100%">
-        <Text fontWeight="bold" textAlign="center">
+        <Text fontWeight="bold" textAlign="center" fontSize="1.4em">
           {songData.item.name}
         </Text>
         <Box>
@@ -27,6 +25,6 @@ export default function SongCard() {
           ))}
         </Box>
       </VStack>
-    </HStack>
+    </VStack>
   );
 }

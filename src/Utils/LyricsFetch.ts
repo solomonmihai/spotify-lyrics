@@ -8,7 +8,7 @@ async function getSongId(song: string, artist: string) {
   const url = `${corsUrl}${searchUrl}${song} ${artist}`;
 
   const res = await axios.get(url);
-  if (res.data.result.songCount == 0) {
+  if (res.data.result.songCount === 0) {
     return -1;
   }
   const firstSong = res.data.result.songs[0];
@@ -32,7 +32,7 @@ function parseLrc(lrc: string) {
   const arr = lrc.split(/\r\n|\r|\n/);
   for (let i = 0; i < arr.length; i++) {
     const verse = arr[i];
-    if (verse == "" || verse.includes("[00:00.000]")) {
+    if (verse === "" || verse.includes("[00:00.000]")) {
       arr.splice(i, 1);
     } else {
       const timeString = verse.match(/\[(.*?)\]/)![1];
@@ -51,8 +51,8 @@ export const NOT_FOUND = "NOT FOUND";
 
 export default async function fetchLyrics(song: string, artist: string) {
   const songId = await getSongId(song, artist);
-  if (songId == -1) {
-    return NOT_FOUND;
+  if (songId === -1) {
+    return fetchLyricsTextyl(song, artist);
   }
   const url = `${corsUrl}${lyricsUrl}${songId}`;
   return axios.get(url).then((res) => {
@@ -62,14 +62,24 @@ export default async function fetchLyrics(song: string, artist: string) {
       return lyrics;
     }
 
-    return NOT_FOUND;
+    return fetchLyricsTextyl(song, artist);
   });
 }
 
 async function fetchLyricsTextyl(song: string, artist: string) {
   const url = `${corsUrl}https://api.textyl.co/api/lyrics?q=${song} ${artist}`;
 
-  return axios.get(url).then((res) => res.data);
+  return axios
+    .get(url)
+    .then((res) =>
+      res.data.map(({ lyrics, seconds }: any) => {
+        return {
+          time: seconds,
+          string: lyrics,
+        };
+      })
+    )
+    .catch((err) => NOT_FOUND);
 }
 
 // function fetchLyricsOvh(song: string, artist: string) {
