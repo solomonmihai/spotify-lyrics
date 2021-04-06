@@ -24,7 +24,6 @@ export default function Lyrics() {
       const encArtist = encodeURIComponent(songData.item.artists[0].name);
 
       fetchLyrics(encSong, encArtist).then((res) => {
-        console.log(res);
         if (res === NOT_FOUND) {
           setFound(false);
           setLoaded(true);
@@ -42,19 +41,19 @@ export default function Lyrics() {
       <SongCard />
       {!loaded && (
         <Box textAlign="center" fontWeight="bold" fontSize="1.2em">
-          <Box transform="translate(0, -0%)" marginTop="25%">
+          <Box marginTop="25%">
             <Text>Loadin' bro</Text>
             <Spinner size="lg" />
           </Box>
         </Box>
       )}
-      {!found && loaded &&
-      <Box textAlign="center" fontWeight="bold" fontSize="1.2em">
-        <Box transform="translate(0, -0%)" marginTop="25%">
-          <Text>Could not find lyrics for this song.</Text>
+      {!found && loaded && (
+        <Box textAlign="center" fontWeight="bold" fontSize="1.2em">
+          <Box marginTop="25%">
+            <Text>Could not find lyrics for this song.</Text>
+          </Box>
         </Box>
-      </Box>
-      }
+      )}
       {found && loaded && lyrics && <LyricsText lyrics={lyrics} />}
     </Container>
   );

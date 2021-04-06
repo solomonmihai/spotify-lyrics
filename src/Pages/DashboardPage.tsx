@@ -17,17 +17,16 @@ export function getAxiosConfig(token: string) {
   };
 }
 
-// TODO: check for song change
-
 export default function DashboardPage({ history }: any) {
-  const songData: any = SongStore.useState((state) => state.songData);
-
   const token = AuthStore.useState((state) => state.token);
 
   const axiosConfig = getAxiosConfig(token ?? "");
 
   const [playing, setPlaying] = useState(false);
 
+  const { songData }: any = SongStore.useState((state) => state);
+
+  // TODO: fix useless state updates by comparing previous song data with new data
   function getSongData() {
     axios
       .get("https://api.spotify.com/v1/me/player/currently-playing", axiosConfig)
@@ -35,7 +34,8 @@ export default function DashboardPage({ history }: any) {
         if (res.data == "") {
           setPlaying(false);
         } else {
-          SongStore.update((state) => {
+          SongStore.update(function (state) {
+            console.log("updating data");
             state.songData = res.data;
             setPlaying(true);
           });
@@ -48,7 +48,16 @@ export default function DashboardPage({ history }: any) {
 
   useEffect(() => {
     getSongData();
+
+    const id = setInterval(() => {
+      getSongData();
+      console.log(songData);
+    }, 3000);
+
+    return () => clearTimeout(id);
   }, []);
+
+  useEffect(() => {});
 
   const { blurredBackground, blurLevel } = SettingsStore.useState((state) => state);
   const { colorMode } = useColorMode();
@@ -56,8 +65,6 @@ export default function DashboardPage({ history }: any) {
   if (!token) {
     history.push("/");
   }
-
-  // TODO: make blurred background on body instead of a separate element
 
   return (
     <Box>

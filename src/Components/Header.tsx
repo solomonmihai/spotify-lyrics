@@ -5,6 +5,9 @@ import { Flex, HStack, Spacer, Image, Text, Box } from "@chakra-ui/react";
 import { getAxiosConfig } from "../Pages/DashboardPage";
 import SettingsMenu from "./SettingsMenu";
 
+// TODO: show a dark to transparent gradient if scroll level is bigger than 0 or smth
+// so the header won't overlap the text
+
 export default function Header() {
   const token = AuthStore.useState((state) => state.token);
 
@@ -34,7 +37,17 @@ export default function Header() {
 
   return (
     <Box mb="50px">
-      <Flex as="nav" justify="space-between" pos="fixed" p="10px" left="0px" top="0px" width="100%">
+      <Flex
+        as="nav"
+        justify="space-between"
+        pos="fixed"
+        p="10px"
+        left="0px"
+        top="0px"
+        width="100%"
+        // background="linear-gradient(to top, transparent 0%, black 100%);"
+      >
+
         {user && (
           <HStack>
             <Image w="auto" h="40px" borderRadius="lg" src={user.images[0].url} />
