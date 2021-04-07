@@ -101,7 +101,7 @@ export default function SettingsMenu() {
       min: 0,
       max: 50,
       step: 1,
-      isDisabled: colorMode == "light",
+      isDisabled: colorMode === "light",
       ariaLabel: "blur slider",
     },
     {
@@ -141,7 +141,7 @@ export default function SettingsMenu() {
           top="60px"
           alignItems="right"
           p="10px"
-          backgroundColor={colorMode == "dark" ? "gray.700" : "transparent"}
+          backgroundColor={colorMode === "dark" ? "gray.700" : "white"}
           borderRadius="lg"
           borderWidth="1px"
         >
@@ -150,14 +150,14 @@ export default function SettingsMenu() {
               <Text>Dark mode</Text>
             </GridItem>
             <GridItem>
-              <Switch isChecked={colorMode == "dark" ? true : false} onChange={toggleColorMode} />
+              <Switch isChecked={colorMode === "dark" ? true : false} onChange={toggleColorMode} />
             </GridItem>
             <GridItem>
-              <DisabledTooltip condition={colorMode == "dark"} text="Blurred background" />
+              <DisabledTooltip condition={colorMode === "dark"} text="Blurred background" />
             </GridItem>
             <GridItem>
               <Switch
-                isDisabled={colorMode == "light"}
+                isDisabled={colorMode === "light"}
                 isChecked={blurredBackground}
                 onChange={() => {
                   SettingsStore.update((state) => {

@@ -17,6 +17,12 @@ export function getAxiosConfig(token: string) {
   };
 }
 
+async function getSongData(config: any) {
+  return axios.get("https://api.spotify.com/v1/me/player/currently-playing", config).then((res) => {
+    return res.data;
+  });
+}
+
 export default function DashboardPage({ history }: any) {
   const token = AuthStore.useState((state) => state.token);
 
@@ -26,38 +32,37 @@ export default function DashboardPage({ history }: any) {
 
   const { songData }: any = SongStore.useState((state) => state);
 
-  // TODO: fix useless state updates by comparing previous song data with new data
-  function getSongData() {
-    axios
-      .get("https://api.spotify.com/v1/me/player/currently-playing", axiosConfig)
-      .then((res) => {
-        if (res.data == "") {
-          setPlaying(false);
-        } else {
-          SongStore.update(function (state) {
-            console.log("updating data");
-            state.songData = res.data;
+  function updateSongData() {
+    getSongData(axiosConfig).then((res) => {
+      if (res === "") {
+        setPlaying(false);
+      } else {
+        const newSong = !songData || songData?.item.id !== res.item.id;
+        if (newSong) {
+          SongStore.update((state) => {
+            state.songData = res;
             setPlaying(true);
           });
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+    });
   }
 
-  useEffect(() => {
-    getSongData();
+  const [refresh, setRefresh] = useState(false);
 
-    const id = setInterval(() => {
-      getSongData();
-      console.log(songData);
+  useEffect(() => {
+    if (!refresh) {
+      updateSongData();
+    }
+    setRefresh(true);
+    const id = setTimeout(() => {
+      setRefresh(false);
     }, 3000);
 
-    return () => clearTimeout(id);
-  }, []);
-
-  useEffect(() => {});
+    return () => {
+      clearTimeout(id);
+    };
+  }, [refresh]);
 
   const { blurredBackground, blurLevel } = SettingsStore.useState((state) => state);
   const { colorMode } = useColorMode();
@@ -68,7 +73,7 @@ export default function DashboardPage({ history }: any) {
 
   return (
     <Box>
-      {colorMode == "dark" && blurredBackground && (
+      {colorMode === "dark" && blurredBackground && (
         <Box
           backgroundImage={songData ? `url(${songData.item.album.images[0].url})` : ""}
           backgroundPosition="center"

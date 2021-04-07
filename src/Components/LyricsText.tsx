@@ -22,7 +22,7 @@ export default function LyricsText({ lyrics }: Props) {
             fontWeight="bold"
             my={`${fontSpacing}px`}
             // color={isCurrent ? undefined : "#aaa"}
-            color={colorMode == "dark" ? "whiteAlpha.800" : "black"}
+            color={colorMode == "dark" ? "whiteAlpha.800" : "gray.700"}
           >
             {verse.string}
           </Text>
