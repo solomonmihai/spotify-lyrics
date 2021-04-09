@@ -64,7 +64,9 @@ export default function DashboardPage({ history }: any) {
     };
   }, [refresh]);
 
-  const { blurredBackground, blurLevel } = SettingsStore.useState((state) => state);
+  const { blurredBackground, blurLevel, brightnessLevel } = SettingsStore.useState(
+    (state) => state
+  );
   const { colorMode } = useColorMode();
 
   if (!token) {
@@ -79,7 +81,7 @@ export default function DashboardPage({ history }: any) {
           backgroundPosition="center"
           backgroundRepeat="no-repeat"
           backgroundSize="cover"
-          filter={`blur(${blurLevel}px) brightness(30%)`}
+          filter={`blur(${blurLevel}px) brightness(${brightnessLevel}%)`}
           position="fixed"
           top="0px"
           left="0px"

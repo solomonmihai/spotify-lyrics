@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Grid,
@@ -13,11 +13,11 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  useOutsideClick,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { FaCog } from "react-icons/fa";
 import SettingsStore from "../Stores/SettingsStore";
-
-// TODO: maybe close the menu on ESC key press or when pressing outside that area
 
 const DisabledTooltip = ({ condition, text }: { condition: boolean; text: string }) => (
   <Tooltip
@@ -64,13 +64,32 @@ const SettingSlider = ({
 );
 
 export default function SettingsMenu() {
+  const ref = useRef();
+
   const [open, setOpen] = useState(false);
-  const toggle = () => setOpen((prev) => !prev);
+
+  const [transparentMenu] = useMediaQuery("(min-width: 800px)");
+
+  useOutsideClick({
+    ref: ref as any,
+    handler: (ev: any) => {
+      let contains = false;
+      for (const el of ev.path) {
+        if (el.id == "settingsButton") {
+          contains = true;
+          break;
+        }
+      }
+      if (!contains) {
+        setOpen(false);
+      }
+    },
+  });
 
   const { colorMode, toggleColorMode } = useColorMode();
 
   const settings = SettingsStore.useState((state) => state);
-  const { blurredBackground, blurLevel, fontSize, fontSpacing } = settings;
+  const { blurredBackground, blurLevel, brightnessLevel, fontSize, fontSpacing } = settings;
 
   useEffect(() => {
     const localSettings = localStorage.getItem("settings");
@@ -105,6 +124,16 @@ export default function SettingsMenu() {
       ariaLabel: "blur slider",
     },
     {
+      value: brightnessLevel,
+      change: "brightnessLevel",
+      title: "Brightness",
+      min: 10,
+      max: 80,
+      step: 5,
+      isDisabled: colorMode === "light",
+      ariaLabel: "brightness slider",
+    },
+    {
       value: fontSize,
       change: "fontSize",
       title: "Font size",
@@ -131,19 +160,38 @@ export default function SettingsMenu() {
     window.location.href = "./";
   }
 
+  const chooseBackgroundColor = () => {
+    if (blurredBackground && transparentMenu) {
+      return "transparent";
+    }
+    if (colorMode == "light") {
+      return "white";
+    }
+
+    return "gray.800";
+  };
+
   return (
     <>
-      <IconButton aria-label="settings icon" icon={<FaCog />} onClick={toggle} />
+      <IconButton
+        id="settingsButton"
+        aria-label="settings icon"
+        icon={<FaCog />}
+        onClick={() => {
+          setOpen((prev) => !prev);
+        }}
+      />
       {open && (
         <VStack
+          ref={ref as any}
           position="fixed"
           right="10px"
           top="60px"
           alignItems="right"
           p="10px"
-          backgroundColor={colorMode === "dark" ? "gray.700" : "white"}
           borderRadius="lg"
           borderWidth="1px"
+          backgroundColor={chooseBackgroundColor()}
         >
           <Grid templateColumns="repeat(2, auto)" fontWeight="bold" gap="10px">
             <GridItem>

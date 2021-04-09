@@ -57,8 +57,8 @@ export default function LandingPage() {
   return (
     <Container textAlign="center">
       <VStack mt="100px" spacing="100px">
-        <Heading>Spotify Lyrics</Heading>
-        <Button onClick={login}>
+        <Heading fontSize="xxx-large">Spotify Lyrics</Heading>
+        <Button onClick={login} fontSize="1.4em" p="35px" borderRadius="25px">
           <FaSpotify style={{ marginRight: "10px" }} />
           Get Started
         </Button>

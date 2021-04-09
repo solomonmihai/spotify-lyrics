@@ -23,10 +23,6 @@ function parseTime(timeString: string): number {
   return time;
 }
 
-// TODO: make genius
-
-// TODO: check Arctic Monkeys - Arabella LRC
-
 function parseLrc(lrc: string) {
   const lyrics = [];
   const arr = lrc.split(/\r\n|\r|\n/);
@@ -49,31 +45,27 @@ function parseLrc(lrc: string) {
 
 export const NOT_FOUND = "NOT FOUND";
 
-async function fetchGeniusLyrics(song: string, artist: string) {
-  const url = `${corsUrl}https://genius.com/${song}-${artist}-lyrics`;
-
-  axios.get(url).then((res) => {
-    console.log(res);
-  });
-
-  return NOT_FOUND;
-}
-
 export default async function fetchLyrics(song: string, artist: string) {
   const songId = await getSongId(song, artist);
   if (songId === -1) {
     return fetchLyricsTextyl(song, artist);
   }
   const url = `${corsUrl}${lyricsUrl}${songId}`;
-  return axios.get(url).then((res) => {
-    if (res.data.lrc) {
-      const lrc = res.data.lrc.lyric;
-      const lyrics = parseLrc(lrc);
-      return lyrics;
-    }
+  return axios
+    .get(url)
+    .then((res) => {
+      if (res.data.lrc) {
+        const lrc = res.data.lrc.lyric;
+        const lyrics = parseLrc(lrc);
+        return lyrics;
+      }
 
-    return fetchLyricsTextyl(song, artist);
-  });
+      return fetchLyricsTextyl(song, artist);
+    })
+    .catch((err) => {
+      console.log("error fetching lyrics", err);
+      return NOT_FOUND;
+    });
 }
 
 async function fetchLyricsTextyl(song: string, artist: string) {
