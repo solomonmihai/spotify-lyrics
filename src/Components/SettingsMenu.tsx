@@ -89,7 +89,7 @@ export default function SettingsMenu() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const settings = SettingsStore.useState((state) => state);
-  const { blurredBackground, blurLevel, brightnessLevel, fontSize, fontSpacing } = settings;
+  const { blurLevel, brightnessLevel, fontSize, fontSpacing } = settings;
 
   useEffect(() => {
     const localSettings = localStorage.getItem("settings");
@@ -161,7 +161,7 @@ export default function SettingsMenu() {
   }
 
   const chooseBackgroundColor = () => {
-    if (blurredBackground && transparentMenu) {
+    if (colorMode == "dark" && transparentMenu) {
       return "transparent";
     }
     if (colorMode == "light") {
@@ -202,17 +202,6 @@ export default function SettingsMenu() {
             </GridItem>
             <GridItem>
               <DisabledTooltip condition={colorMode === "dark"} text="Blurred background" />
-            </GridItem>
-            <GridItem>
-              <Switch
-                isDisabled={colorMode === "light"}
-                isChecked={blurredBackground}
-                onChange={() => {
-                  SettingsStore.update((state) => {
-                    state.blurredBackground = !blurredBackground;
-                  });
-                }}
-              />
             </GridItem>
             {sliders.map((slider, index): any => (
               <GridItem colSpan={2} key={index}>

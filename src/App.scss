@@ -1,0 +1,32 @@
+$fuchsia: #ff0080;
+$purple1: #9733ee;
+$purple2: #7928ca;
+
+.btn-grad {
+  background-image: linear-gradient(to right, $fuchsia 0%, $purple1 71%, $purple2 100%);
+  outline: none;
+}
+
+::selection {
+  color: white;
+  background-color: $fuchsia;
+}
+
+.btn-grad {
+  color: white;
+  font-weight: bolder;
+  padding: 20px 30px 20px 30px;
+  font-size: 1.6em;
+  border-radius: 20px;
+  font-style: italic;
+
+  text-align: center;
+  transition: 0.25s;
+  background-size: 200% auto;
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}

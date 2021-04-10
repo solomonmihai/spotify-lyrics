@@ -57,11 +57,19 @@ export default function LandingPage() {
   return (
     <Container textAlign="center">
       <VStack mt="100px" spacing="100px">
-        <Heading fontSize="xxx-large">Spotify Lyrics</Heading>
-        <Button onClick={login} fontSize="1.4em" p="35px" borderRadius="25px">
-          <FaSpotify style={{ marginRight: "10px" }} />
+        <Heading
+          fontStyle="italic"
+          fontWeight="extrabold"
+          fontSize="4em"
+          bgGradient={["linear(to-l, #7928CA,#FF0080) "]}
+          bgClip="text"
+        >
+          Spotify Lyrics
+        </Heading>
+        <button onClick={login} className="btn-grad">
+          <FaSpotify style={{ marginRight: "10px", display: "inline" }} />
           Get Started
-        </Button>
+        </button>
       </VStack>
     </Container>
   );

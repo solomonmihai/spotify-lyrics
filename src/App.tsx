@@ -8,9 +8,14 @@ import DashboardPage from "./Pages/DashboardPage";
 import Header from "./Components/Header";
 import AuthStore from "./Stores/AuthStore";
 
+import "./App.scss";
+
+// TODO: work on the landing page
+// TODO: change accent color
+
 const theme = extendTheme({
   config: {
-    initialColorMode: "dark",
+    initialColorMode: "light",
     useSystemColorMode: false,
   },
 });

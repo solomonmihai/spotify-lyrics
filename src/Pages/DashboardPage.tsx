@@ -64,9 +64,7 @@ export default function DashboardPage({ history }: any) {
     };
   }, [refresh]);
 
-  const { blurredBackground, blurLevel, brightnessLevel } = SettingsStore.useState(
-    (state) => state
-  );
+  const { blurLevel, brightnessLevel } = SettingsStore.useState((state) => state);
   const { colorMode } = useColorMode();
 
   if (!token) {
@@ -75,7 +73,7 @@ export default function DashboardPage({ history }: any) {
 
   return (
     <Box>
-      {colorMode === "dark" && blurredBackground && (
+      {colorMode === "dark" && (
         <Box
           backgroundImage={songData ? `url(${songData.item.album.images[0].url})` : ""}
           backgroundPosition="center"

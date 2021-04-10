@@ -1,4 +1,4 @@
-import { Box, Tag, Text, HStack, Image, VStack, useMediaQuery } from "@chakra-ui/react";
+import { Box, Tag, Text, Image, VStack } from "@chakra-ui/react";
 import SongStore from "../Stores/SongStore";
 
 export default function SongCard() {
