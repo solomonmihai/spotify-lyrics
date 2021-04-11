@@ -6,8 +6,6 @@ import {
   IconButton,
   Switch,
   Text,
-  Tooltip,
-  useColorMode,
   VStack,
   Slider,
   SliderTrack,
@@ -15,20 +13,10 @@ import {
   SliderThumb,
   useOutsideClick,
   useMediaQuery,
+  useColorMode,
 } from "@chakra-ui/react";
 import { FaCog } from "react-icons/fa";
 import SettingsStore from "../Stores/SettingsStore";
-
-const DisabledTooltip = ({ condition, text }: { condition: boolean; text: string }) => (
-  <Tooltip
-    isDisabled={condition}
-    label="Dark mode only"
-    aria-label="dark mode tooltip"
-    placement="auto"
-  >
-    <Text>{text}</Text>
-  </Tooltip>
-);
 
 const SettingSlider = ({
   value,
@@ -55,6 +43,7 @@ const SettingSlider = ({
     min={min}
     max={max}
     step={step}
+    colorScheme="accent"
   >
     <SliderTrack>
       <SliderFilledTrack />
@@ -162,7 +151,7 @@ export default function SettingsMenu() {
 
   const chooseBackgroundColor = () => {
     if (colorMode == "dark" && transparentMenu) {
-      return "transparent";
+      return "rgba(30, 30, 30, 0.j)";
     }
     if (colorMode == "light") {
       return "white";
@@ -193,19 +182,22 @@ export default function SettingsMenu() {
           borderWidth="1px"
           backgroundColor={chooseBackgroundColor()}
         >
-          <Grid templateColumns="repeat(2, auto)" fontWeight="bold" gap="10px">
-            <GridItem>
-              <Text>Dark mode</Text>
-            </GridItem>
-            <GridItem>
-              <Switch isChecked={colorMode === "dark" ? true : false} onChange={toggleColorMode} />
-            </GridItem>
-            <GridItem>
-              <DisabledTooltip condition={colorMode === "dark"} text="Blurred background" />
-            </GridItem>
+          <Grid templateColumns="repeat(2, 90px)" fontWeight="bold" gap="10px">
+            <Grid templateColumns="155px 20px">
+              <GridItem>
+                <Text>Dark mode</Text>
+              </GridItem>
+              <GridItem>
+                <Switch
+                  isChecked={colorMode === "dark" ? true : false}
+                  onChange={toggleColorMode}
+                  colorScheme="accent"
+                />
+              </GridItem>
+            </Grid>
             {sliders.map((slider, index): any => (
               <GridItem colSpan={2} key={index}>
-                <DisabledTooltip condition={slider.isDisabled} text={slider.title} />
+                <Text>{slider.title}</Text>
                 <SettingSlider
                   value={slider.value}
                   min={slider.min}

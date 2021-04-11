@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { Box, ChakraProvider, ColorMode, extendTheme } from "@chakra-ui/react";
 
 import LandingPage from "./Pages/LandingPage";
 import RedirectPage from "./Pages/RedirectPage";
@@ -10,13 +10,41 @@ import AuthStore from "./Stores/AuthStore";
 
 import "./App.scss";
 
-// TODO: work on the landing page
-// TODO: change accent color
+const chooseGradient = (colorMode: ColorMode) => {
+  if (colorMode == "dark") {
+    return "linear-gradient(190deg, rgba(0,0,0,1) 0%, rgba(15, 15, 15,1) 100%)";
+  }
+
+  return null;
+};
 
 const theme = extendTheme({
   config: {
-    initialColorMode: "light",
+    initialColorMode: "dark",
     useSystemColorMode: false,
+  },
+  styles: {
+    global: (props) => ({
+      body: {
+        backgroundColor: props.colorMode == "light" ? "white" : "black",
+        backgroundImage: chooseGradient(props.colorMode),
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+      },
+    }),
+  },
+  colors: {
+    accent: {
+      100: "#9733ee",
+      200: "#9733ee",
+      300: "#9733ee",
+      400: "#9733ee",
+      500: "#9733ee",
+      600: "#9733ee",
+      700: "#9733ee",
+      800: "#9733ee",
+      900: "#9733ee",
+    },
   },
 });
 

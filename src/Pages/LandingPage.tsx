@@ -1,8 +1,21 @@
 import React from "react";
-import { Box, Container, Text, Button, Heading, VStack } from "@chakra-ui/react";
-import { FaSpotify } from "react-icons/fa";
+import {
+  Grid,
+  Text,
+  Heading,
+  IconButton,
+  VStack,
+  Box,
+  Image,
+  GridItem,
+  useColorModeValue,
+  useColorMode,
+} from "@chakra-ui/react";
+import { FaGithub, FaSpotify, FaTwitter } from "react-icons/fa";
 import AuthStore from "../Stores/AuthStore";
 import { Redirect } from "react-router-dom";
+
+import fiverrIcon from "../assets/fiverr-icon.png";
 
 const spotifyAuthUrl = "https://accounts.spotify.com/authorize";
 const spotifyClientID = "9895e0ba277e4d509bad2a2efa893e69";
@@ -32,6 +45,7 @@ function getRedirectUri(): string {
 
 export default function LandingPage() {
   const token = AuthStore.useState((state) => state.token);
+  const { colorMode } = useColorMode();
 
   if (token) {
     return (
@@ -55,22 +69,64 @@ export default function LandingPage() {
   }
 
   return (
-    <Container textAlign="center">
-      <VStack mt="100px" spacing="100px">
+    <Box height="80vh">
+      <VStack mt="150px" spacing="100px">
         <Heading
           fontStyle="italic"
           fontWeight="extrabold"
           fontSize="4em"
-          bgGradient={["linear(to-l, #7928CA,#FF0080) "]}
+          bgGradient={["linear(to bottom, #7928CA, #ff0080) "]}
           bgClip="text"
         >
           Spotify Lyrics
         </Heading>
         <button onClick={login} className="btn-grad">
-          <FaSpotify style={{ marginRight: "10px", display: "inline" }} />
+          <FaSpotify style={{ marginRight: "10px", marginBottom: "5px", display: "inline" }} />
           Get Started
         </button>
       </VStack>
-    </Container>
+
+      <Grid
+        position="absolute"
+        bottom="2%"
+        left="50%"
+        templateColumns="repeat(3, 50px)"
+        transform="translate(-50%, 0)"
+        columnGap="5px"
+      >
+        <GridItem colSpan={3}>
+          <Text fontSize="15px" textAlign="center" color="#777777">
+            made by mihaiSolomon
+          </Text>
+        </GridItem>
+        <IconButton
+          backgroundColor="transparent"
+          as="a"
+          href="https://twitter.com/msolomon_dev"
+          icon={<FaTwitter />}
+          aria-label="twitter icon"
+        />
+        <IconButton
+          backgroundColor="transparent"
+          as="a"
+          href="https://github.com/m133solomon"
+          icon={<FaGithub />}
+          aria-label="github icon"
+        />
+        <IconButton
+          backgroundColor="transparent"
+          aria-label="fiverr icon"
+          as="a"
+          href="https://www.fiverr.com/mihaisolomon64"
+          icon={
+            <Image
+              width="15px"
+              filter={colorMode == "dark" ? `brightness(0) invert(1)` : ""}
+              src={fiverrIcon}
+            />
+          }
+        />
+      </Grid>
+    </Box>
   );
 }

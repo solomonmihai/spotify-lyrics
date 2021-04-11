@@ -15,6 +15,7 @@ export default function Lyrics() {
     (state) => state.songData,
     (newSongData) => {
       setSongData(newSongData);
+      setLoaded(false);
     }
   );
 
@@ -42,7 +43,7 @@ export default function Lyrics() {
       {!loaded && (
         <Box textAlign="center" fontWeight="bold" fontSize="1.2em">
           <Box marginTop="25%">
-            <Text>Loadin' bro</Text>
+            <Text>Loading</Text>
             <Spinner size="lg" />
           </Box>
         </Box>
@@ -50,7 +51,7 @@ export default function Lyrics() {
       {!found && loaded && (
         <Box textAlign="center" fontWeight="bold" fontSize="1.2em">
           <Box marginTop="25%">
-            <Text>Could not find lyrics for this song.</Text>
+            <Text>Could not find lyrics.</Text>
           </Box>
         </Box>
       )}

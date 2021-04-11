@@ -12,9 +12,9 @@ export default function SongCard() {
 
   return (
     <VStack p="10px" mb="20px">
-      <Image maxW="200px" src={albumCover} borderRadius="15px" />
+      <Image maxW="225px" src={albumCover} borderRadius="15px" />
       <VStack width="100%">
-        <Text fontWeight="bold" textAlign="center" fontSize="1.4em">
+        <Text fontWeight="bold" textAlign="center" fontSize="1.6em">
           {songData.item.name}
         </Text>
         <Box>

@@ -35,26 +35,24 @@ export default function Header() {
   }
 
   return (
-    <Box mb="50px">
-      <Flex
-        as="nav"
-        justify="space-between"
-        pos="fixed"
-        p="10px"
-        left="0px"
-        top="0px"
-        width="100%"
-        // background="linear-gradient(to top, transparent 0%, black 100%);"
-      >
-        {user && (
-          <HStack>
-            <Image w="auto" h="40px" borderRadius="lg" src={user.images[0].url} />
-            {showUsername && <Text fontWeight="bold">{user.display_name}</Text>}
-          </HStack>
-        )}
-        <Spacer />
-        <SettingsMenu />
-      </Flex>
-    </Box>
+    <Flex
+      as="nav"
+      justify="space-between"
+      pos="fixed"
+      p="10px"
+      left="0px"
+      top="0px"
+      width="100%"
+      // background="linear-gradient(to top, transparent 0%, black 100%);"
+    >
+      {user && (
+        <HStack>
+          <Image w="auto" h="40px" borderRadius="lg" src={user.images[0].url} />
+          {showUsername && <Text fontWeight="bold">{user.display_name}</Text>}
+        </HStack>
+      )}
+      <Spacer />
+      <SettingsMenu />
+    </Flex>
   );
 }
