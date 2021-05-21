@@ -10,6 +10,9 @@ import AuthStore from "./Stores/AuthStore";
 
 import "./App.scss";
 
+// TODO: default to light mode for mobile
+// TODO: add a description with the spotify api scopes
+
 const chooseGradient = (colorMode: ColorMode) => {
   if (colorMode == "dark") {
     return "linear-gradient(190deg, rgba(0,0,0,1) 0%, rgba(15, 15, 15,1) 100%)";
@@ -18,13 +21,13 @@ const chooseGradient = (colorMode: ColorMode) => {
   return null;
 };
 
-const theme = extendTheme({
+const theme: any = extendTheme({
   config: {
     initialColorMode: "dark",
     useSystemColorMode: false,
   },
   styles: {
-    global: (props) => ({
+    global: (props: any) => ({
       body: {
         backgroundColor: props.colorMode == "light" ? "white" : "black",
         backgroundImage: chooseGradient(props.colorMode),

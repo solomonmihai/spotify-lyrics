@@ -8,7 +8,6 @@ import {
   Box,
   Image,
   GridItem,
-  useColorModeValue,
   useColorMode,
 } from "@chakra-ui/react";
 import { FaGithub, FaSpotify, FaTwitter } from "react-icons/fa";
@@ -96,7 +95,6 @@ export default function LandingPage() {
       >
         <GridItem colSpan={3}>
           <Text fontSize="15px" textAlign="center" color="#777777">
-            made by mihaiSolomon
           </Text>
         </GridItem>
         <IconButton

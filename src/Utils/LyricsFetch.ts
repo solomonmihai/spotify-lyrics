@@ -46,61 +46,35 @@ function parseLrc(lrc: string) {
 export const NOT_FOUND = "NOT FOUND";
 
 export default async function fetchLyrics(song: string, artist: string) {
+  return fetchLyricsTextyl(song, artist)
+    .catch(() => fetchLyricsNetEase(song, artist))
+    .catch(() => NOT_FOUND);
+}
+
+async function fetchLyricsNetEase(song: string, artist: string) {
   const songId = await getSongId(song, artist);
   if (songId === -1) {
     return fetchLyricsTextyl(song, artist);
   }
-  const url = `${corsUrl}${lyricsUrl}${songId}`;
-  return axios
-    .get(url)
-    .then((res) => {
-      if (res.data.lrc) {
-        const lrc = res.data.lrc.lyric;
-        const lyrics = parseLrc(lrc);
-        return lyrics;
-      }
 
-      return fetchLyricsTextyl(song, artist);
-    })
-    .catch((err) => {
-      console.log("error fetching lyrics", err);
-      return NOT_FOUND;
-    });
+  const url = `${corsUrl}${lyricsUrl}${songId}`;
+
+  return axios.get(url).then((res) => {
+    const lrc = res.data.lrc.lyric;
+    const lyrics = parseLrc(lrc);
+    return lyrics;
+  });
 }
 
 async function fetchLyricsTextyl(song: string, artist: string) {
   const url = `${corsUrl}https://api.textyl.co/api/lyrics?q=${song} ${artist}`;
 
-  return axios
-    .get(url)
-    .then((res) =>
-      res.data.map(({ lyrics, seconds }: any) => {
-        return {
-          time: seconds,
-          string: lyrics,
-        };
-      })
-    )
-    .catch((err) => NOT_FOUND);
+  return axios.get(url).then((res) =>
+    res.data.map(({ lyrics, seconds }: any) => {
+      return {
+        time: seconds,
+        string: lyrics,
+      };
+    })
+  );
 }
-
-// function fetchLyricsOvh(song: string, artist: string) {
-// const url = `https://api.lyrics.ovh/v1/${artist}/${song}`;
-
-// axios
-// .get(url, {
-// timeout: 10000,
-// })
-// .then((res) => {
-// const list = (res.data.lyrics as string)
-// .split(/\r\n|\r|\n/)
-// .filter((lyric) => lyric != "")
-// .map((s) => {
-// return {
-// string: s,
-// };
-// });
-
-// return list;
-// });
-// }

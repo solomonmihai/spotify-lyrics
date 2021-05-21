@@ -62,16 +62,24 @@ export default function SettingsMenu() {
   useOutsideClick({
     ref: ref as any,
     handler: (ev: any) => {
-      let contains = false;
-      for (const el of ev.path) {
-        if (el.id == "settingsButton") {
-          contains = true;
-          break;
-        }
+
+      console.log(ev.target.tagName)
+
+      if (ev && !(ev.target.tagName == "svg" || ev.target.id == "settingsButton")) {
+        setOpen(false)
       }
-      if (!contains) {
-        setOpen(false);
-      }
+
+      // let contains = false;
+      // console.log(ev)
+      // for (const el of ev.path) {
+        // if (el.id == "settingsButton") {
+          // contains = true;
+          // break;
+        // }
+      // }
+      // if (!contains) {
+        // setOpen(false);
+      // }
     },
   });
 
