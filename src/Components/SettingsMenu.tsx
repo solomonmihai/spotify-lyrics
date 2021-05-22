@@ -63,8 +63,6 @@ export default function SettingsMenu() {
     ref: ref as any,
     handler: (ev: any) => {
 
-      console.log(ev.target.tagName)
-
       if (ev && !(ev.target.tagName == "svg" || ev.target.id == "settingsButton")) {
         setOpen(false)
       }
