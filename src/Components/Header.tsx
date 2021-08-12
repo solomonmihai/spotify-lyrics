@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AuthStore from "../Stores/AuthStore";
 import axios from "axios";
-import { Flex, HStack, Spacer, Image, Text, Box, useMediaQuery } from "@chakra-ui/react";
+import { Flex, HStack, Spacer, Image, Text, useMediaQuery } from "@chakra-ui/react";
 import { getAxiosConfig } from "../Pages/DashboardPage";
 import SettingsMenu from "./SettingsMenu";
 

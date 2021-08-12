@@ -20,6 +20,7 @@ function parseTime(timeString: string): number {
   timeString = timeString.replace(".", ":");
   const arr = timeString.split(":").map((x) => +x);
   const time = +arr[2] + 1000 * (+arr[1] + 60 * +arr[0]);
+
   return time;
 }
 
@@ -65,6 +66,9 @@ async function fetchLyricsNetEase(song: string, artist: string) {
     return lyrics;
   });
 }
+
+// TODO: try this api
+// https://api.vagalume.com.br/search.php?apikey=660a4395f992ff67786584e238f501aa&art=matthew%20koma&mus=kisses%20back
 
 async function fetchLyricsTextyl(song: string, artist: string) {
   const url = `${corsUrl}https://api.textyl.co/api/lyrics?q=${song} ${artist}`;

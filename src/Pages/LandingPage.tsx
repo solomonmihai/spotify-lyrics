@@ -107,7 +107,7 @@ export default function LandingPage() {
         <IconButton
           backgroundColor="transparent"
           as="a"
-          href="https://github.com/m133solomon"
+          href="https://github.com/mihaisolomon"
           icon={<FaGithub />}
           aria-label="github icon"
         />
