@@ -1,0 +1,23 @@
+.btn-grad {
+	 background-image: linear-gradient(to right, #9733ee 0%, #9733ee 31%, #ff0080 100%);
+	 outline: none;
+}
+::selection {
+	 color: white;
+	 background-color: #9733ee;
+}
+ .btn-grad {
+	 color: white;
+	 font-weight: bolder;
+	 padding: 12px 22px 12px 22px;
+	 font-size: 1.6em;
+	 border-radius: 12px;
+	 font-style: italic;
+	 text-align: center;
+	 transition: 0.5s;
+	 background-size: 200% auto;
+}
+ .btn-grad:hover {
+	 background-position: right center;
+}
+

@@ -8,7 +8,7 @@ import DashboardPage from "./Pages/DashboardPage";
 import Header from "./Components/Header";
 import AuthStore from "./Stores/AuthStore";
 
-import "./App.scss";
+import "./App.css";
 
 // TODO: default to light mode for mobile
 // TODO: add a description with the spotify api scopes
